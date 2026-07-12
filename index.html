@@ -311,7 +311,8 @@
         </div>
         <div class="field-group">
           <label>شماره ملی گیرنده</label>
-          <input type="text" id="nationalIdInput" inputmode="numeric" placeholder="کد ملی ۱۰ رقمی">
+          <input type="text" id="nationalIdInput" inputmode="numeric" placeholder="کد ملی ۱۰ رقمی یا شناسه ملی ۱۱ رقمی">
+          <span id="nationalIdStatus" class="muted" style="min-height:16px;display:block;"></span>
         </div>
         <button class="btn-secondary" id="applyTextBtn" style="width:100%">ثبت روی چک</button>
         <p class="muted" style="margin-top:8px">نکته: این فیلدها را می‌توانید مستقیماً هم روی تصویر چک لمس و تایپ کنید؛ نیازی به این کادرها نیست.</p>
@@ -390,7 +391,7 @@
             <input type="number" id="offsetTopMM" value="0" step="0.5">
           </div>
         </div>
-        <p class="muted">تصویر چک فقط برای پیش‌نمایش روی صفحه است و در فایل PDF نهایی چاپ نمی‌شود — فقط متن‌ها چاپ می‌شوند تا روی برگه چک واقعی (که از قبل چاپ شده) بنشینند. طبق نمونه ارسالی، محتوا با چرخش ۲۷۰ درجه و فاصله ۶۷.۵ میلی‌متر از چپ و ۰ از بالا تنظیم شده است؛ در صورت نیاز با یک چاپ آزمایشی روی کاغذ معمولی، دقیق‌ترش کنید.</p>
+        <p class="muted">تصویر چک فقط برای پیش‌نمایش روی صفحه است و در فایل PDF نهایی چاپ نمی‌شود — فقط متن‌ها چاپ می‌شوند تا روی برگه چک واقعی (که از قبل چاپ شده) بنشینند. برای فیلدهایی که موقعیت دقیق چاپ (mm از راست/بالا) در بخش «تنظیم دقیق موقعیت» برایشان مشخص شده، همان مختصات دقیق استفاده می‌شود؛ فاصله از چپ/بالای این کارت فقط برای بقیه فیلدها (که موقعیت دقیق ندارند) به‌کار می‌رود.</p>
       </div>
 
       <div class="card" id="calibCard" style="display:none;">
@@ -551,13 +552,13 @@ function approxJalaliToday(){
 
 /* ================= Field state ================= */
 const DEFAULT_FIELDS = [
-  { id:'location',     label:'محل',            left:55,   top:3,    width:21,   height:8,   fontSize:12,   align:'center', visible:true, text:'' },
-  { id:'date',         label:'تاریخ (عدد)',     left:79,   top:3,    width:22,   height:8,   fontSize:13,   align:'center', visible:true, text:'' },
-  { id:'dateWords',    label:'تاریخ (حروف)',    left:53,   top:11,   width:48,   height:9,   fontSize:10.5, align:'right',  visible:true, text:'' },
-  { id:'amountDigits', label:'مبلغ به عدد',     left:53,   top:12,   width:27,   height:11,  fontSize:13,   align:'center', visible:true, text:'' },
-  { id:'amountWords',  label:'مبلغ به حروف',    left:2.5,  top:30,   width:87,   height:12,  fontSize:12.5, align:'right',  visible:true, text:'' },
-  { id:'nationalId',   label:'شماره ملی گیرنده',left:53,   top:44,   width:39,   height:9,   fontSize:11,   align:'right',  visible:true, text:'' },
-  { id:'payee',        label:'در وجه',          left:2.5,  top:52,   width:89,   height:12,  fontSize:13,   align:'right',  visible:true, text:'' },
+  { id:'location',     label:'محل',            left:55,   top:3,    width:21,   height:8,   fontSize:12,   align:'center', visible:true, text:'', printRight:null,  printTop:null },
+  { id:'date',         label:'تاریخ (عدد)',     left:79,   top:3,    width:22,   height:8,   fontSize:13,   align:'center', visible:true, text:'', printRight:131,   printTop:25.5 },
+  { id:'dateWords',    label:'تاریخ (حروف)',    left:53,   top:11,   width:48,   height:9,   fontSize:10.5, align:'right',  visible:true, text:'', printRight:125.5, printTop:34 },
+  { id:'amountDigits', label:'مبلغ به عدد',     left:53,   top:12,   width:27,   height:11,  fontSize:13,   align:'center', visible:true, text:'', printRight:85,    printTop:100 },
+  { id:'amountWords',  label:'مبلغ به حروف',    left:2.5,  top:30,   width:87,   height:12,  fontSize:12.5, align:'right',  visible:true, text:'', printRight:113,   printTop:48.5 },
+  { id:'nationalId',   label:'شماره ملی گیرنده',left:53,   top:44,   width:39,   height:9,   fontSize:11,   align:'right',  visible:true, text:'', printRight:102,   printTop:101 },
+  { id:'payee',        label:'در وجه',          left:2.5,  top:52,   width:89,   height:12,  fontSize:13,   align:'right',  visible:true, text:'', printRight:104.5, printTop:15 },
 ];
 
 let fields = JSON.parse(JSON.stringify(DEFAULT_FIELDS));
@@ -589,7 +590,7 @@ function renderFields(){
     const txt = document.createElement('div');
     txt.className = 'field-text';
     txt.contentEditable = "true";
-    txt.dir = (f.id === 'date' || f.id === 'amountDigits') ? 'ltr' : 'rtl';
+    txt.dir = 'rtl';
     txt.style.textAlign = f.align;
     txt.style.justifyContent = f.align === 'center' ? 'center' : (f.align === 'right' ? 'flex-start' : 'flex-end');
     txt.setAttribute('data-placeholder', fieldPlaceholder(f));
@@ -704,11 +705,19 @@ function renderCalibList(){
       <div class="grid4" style="grid-template-columns:1fr;margin-top:6px;">
         <div><label>اندازه فونت (px مرجع)</label><input type="number" step="0.5" data-k="fontSize" value="${f.fontSize}"></div>
       </div>
+      <div class="grid4" style="grid-template-columns:1fr 1fr;margin-top:6px;">
+        <div><label>موقعیت چاپ — فاصله از راست (mm)</label><input type="number" step="0.5" data-k="printRight" value="${f.printRight ?? ''}" placeholder="خودکار"></div>
+        <div><label>موقعیت چاپ — فاصله از بالا (mm)</label><input type="number" step="0.5" data-k="printTop" value="${f.printTop ?? ''}" placeholder="خودکار"></div>
+      </div>
     `;
     item.querySelectorAll('input').forEach(inp => {
       inp.addEventListener('input', () => {
         const k = inp.dataset.k;
-        f[k] = parseFloat(inp.value) || 0;
+        if(k === 'printRight' || k === 'printTop'){
+          f[k] = inp.value === '' ? null : (parseFloat(inp.value) || 0);
+        }else{
+          f[k] = parseFloat(inp.value) || 0;
+        }
         renderFields();
       });
     });
@@ -747,7 +756,7 @@ document.getElementById('calibToggle').addEventListener('click', (e) => {
 
 document.getElementById('addFieldBtn').addEventListener('click', () => {
   const id = 'custom' + (customCounter++);
-  fields.push({ id, label:'فیلد سفارشی', left:30, top:80, width:30, height:7, fontSize:12, align:'right', visible:true, text:'' });
+  fields.push({ id, label:'فیلد سفارشی', left:30, top:80, width:30, height:7, fontSize:12, align:'right', visible:true, text:'', printRight:null, printTop:null });
   body.classList.add('calibrate');
   document.getElementById('calibToggle').classList.add('on');
   document.getElementById('calibCard').style.display = 'block';
@@ -770,7 +779,7 @@ document.getElementById('resetPosBtn').addEventListener('click', () => {
 });
 
 document.getElementById('exportCalibBtn').addEventListener('click', () => {
-  const layout = fields.map(({id,label,left,top,width,height,fontSize,align,visible}) => ({id,label,left,top,width,height,fontSize,align,visible}));
+  const layout = fields.map(({id,label,left,top,width,height,fontSize,align,visible,printRight,printTop}) => ({id,label,left,top,width,height,fontSize,align,visible,printRight,printTop}));
   const blob = new Blob([JSON.stringify(layout, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -856,21 +865,75 @@ document.getElementById('applyAmountBtn').addEventListener('click', () => {
   if(!raw) return;
   const digitsField = fields.find(x => x.id === 'amountDigits');
   const wordsField = fields.find(x => x.id === 'amountWords');
-  if(digitsField) digitsField.text = toFaDigits(groupWithSlash(raw)) + ' ریال';
-  if(wordsField) wordsField.text = numberToPersianWords(raw) + ' ریال';
+  if(digitsField) digitsField.text = toFaDigits(groupWithSlash(raw)) + ' ریال ****';
+  if(wordsField) wordsField.text = numberToPersianWords(raw) + ' ریال ****';
   renderFields();
 });
 
-/* ================= Payee / purpose panel ================= */
+/* ================= Payee / national ID / purpose panel ================= */
+function validateIranianNationalCode(input){
+  const digits = toEnDigits(String(input || '')).replace(/\D/g, '');
+  if(digits.length === 10){
+    if(/^(\d)\1{9}$/.test(digits)) return { ok:false, type:'person', digits };
+    const d = digits.split('').map(Number);
+    const check = d[9];
+    let sum = 0;
+    for(let i = 0; i < 9; i++) sum += d[i] * (10 - i);
+    const rem = sum % 11;
+    const ok = rem < 2 ? (check === rem) : (check === 11 - rem);
+    return { ok, type:'person', digits };
+  }
+  if(digits.length === 11){
+    const d = digits.split('').map(Number);
+    const coef = [29, 27, 23, 19, 17, 29, 27, 23, 19, 17];
+    let sum = 0;
+    for(let i = 0; i < 10; i++) sum += d[i] * coef[i];
+    let rem = sum % 11;
+    if(rem === 10) rem = 0;
+    const ok = rem === d[10];
+    return { ok, type:'legal', digits };
+  }
+  return { ok:false, type:'unknown', digits };
+}
+
+function nationalIdFeedbackText(res){
+  if(!res.digits) return '';
+  if(res.type === 'unknown') return '⚠️ طول کد باید ۱۰ رقم (کد ملی شخص حقیقی) یا ۱۱ رقم (شناسه ملی شخص حقوقی) باشد.';
+  if(res.ok) return res.type === 'person' ? '✅ کد ملی معتبر است.' : '✅ شناسه ملی معتبر است.';
+  return res.type === 'person' ? '⚠️ کد ملی نامعتبر به نظر می‌رسد.' : '⚠️ شناسه ملی نامعتبر به نظر می‌رسد.';
+}
+
+function updateNationalIdStatus(){
+  const res = validateIranianNationalCode(document.getElementById('nationalIdInput').value);
+  const statusEl = document.getElementById('nationalIdStatus');
+  statusEl.textContent = nationalIdFeedbackText(res);
+  statusEl.style.color = res.digits ? (res.ok ? 'var(--teal)' : 'var(--danger)') : '';
+}
+document.getElementById('nationalIdInput').addEventListener('input', updateNationalIdStatus);
+
+// Checked right before generating a PDF: if the currently-registered national ID / legal ID
+// text on the check fails the checksum, warn and ask for explicit confirmation to continue.
+function confirmNationalIdOrAbort(){
+  const nidField = fields.find(x => x.id === 'nationalId');
+  if(!nidField || !nidField.visible || !nidField.text || !nidField.text.trim()) return true;
+  const res = validateIranianNationalCode(nidField.text);
+  if(res.ok) return true;
+  const label = res.type === 'legal' ? 'شناسه ملی' : (res.type === 'person' ? 'کد ملی' : 'کد ملی/شناسه ملی');
+  return confirm(`${label} گیرنده که روی چک ثبت شده، معتبر به نظر نمی‌رسد (خطای الگوریتم کنترلی).\nآیا مایلید با همین حال PDF ساخته شود؟`);
+}
+
 document.getElementById('applyTextBtn').addEventListener('click', () => {
   const payee = fields.find(x => x.id === 'payee');
   const nid = fields.find(x => x.id === 'nationalId');
   if(payee && document.getElementById('payeeInput').value.trim()) payee.text = document.getElementById('payeeInput').value.trim();
   if(nid && document.getElementById('nationalIdInput').value.trim()) nid.text = toFaDigits(toEnDigits(document.getElementById('nationalIdInput').value.trim()));
+  updateNationalIdStatus();
   renderFields();
 });
 
-/* ================= Export PDF ================= */
+/* ================= Export PDF (per-field precise placement) ================= */
+const PX_PER_MM = 12; // capture resolution used for print quality
+
 function rotateCanvas(srcCanvas, angleDeg){
   const norm = ((angleDeg % 360) + 360) % 360;
   if(norm === 0) return srcCanvas;
@@ -887,29 +950,67 @@ function rotateCanvas(srcCanvas, angleDeg){
   return out;
 }
 
+// Maps a field's box (x0,y0,w,h), all in mm within the check's own local frame,
+// to its bounding box after the whole check has been rotated by `rotation` degrees.
+function computeRotatedBox(x0, y0, w, h, checkW, checkH, rotation){
+  const norm = ((rotation % 360) + 360) % 360;
+  switch(norm){
+    case 90:  return { left: checkH - y0 - h, top: x0, width: h, height: w };
+    case 180: return { left: checkW - x0 - w, top: checkH - y0 - h, width: w, height: h };
+    case 270: return { left: y0, top: checkW - x0 - w, width: h, height: w };
+    default:  return { left: x0, top: y0, width: w, height: h };
+  }
+}
+
 function getPagePlacement(){
   const rotation = parseInt(document.getElementById('contentRotation').value, 10) || 0;
   const checkW = parseFloat(document.getElementById('checkWidthMM').value) || 170;
   const checkH = parseFloat(document.getElementById('checkHeightMM').value) || 85;
   const offX = parseFloat(document.getElementById('offsetLeftMM').value) || 0;
   const offY = parseFloat(document.getElementById('offsetTopMM').value) || 0;
-  const swapped = (rotation === 90 || rotation === 270);
-  return {
-    rotation,
-    orientation: document.getElementById('pageOrientation').value,
-    offX, offY,
-    placedW: swapped ? checkH : checkW,
-    placedH: swapped ? checkW : checkH,
-  };
+  const orientation = document.getElementById('pageOrientation').value;
+  const pageWidthMM = orientation === 'portrait' ? 210 : 297;
+  return { rotation, orientation, offX, offY, checkW, checkH, pageWidthMM };
 }
 
-async function capturePageImage(rotation){
-  let canvas = await html2canvas(stage, { scale:4, useCORS:true, backgroundColor:null });
-  canvas = rotateCanvas(canvas, rotation);
-  return canvas.toDataURL('image/png');
+async function captureFieldCanvas(fieldEl, widthMM){
+  const rect = fieldEl.getBoundingClientRect();
+  const targetPxW = Math.max(1, Math.round(widthMM * PX_PER_MM));
+  const scale = targetPxW / Math.max(1, rect.width);
+  return html2canvas(fieldEl, { scale, useCORS:true, backgroundColor:null });
+}
+
+async function renderCheckPageToPdf(pdf, isFirstPage, placement){
+  if(!isFirstPage) pdf.addPage('a4', placement.orientation);
+  const visibleFields = fields.filter(f => f.visible && f.text && f.text.trim() !== '');
+  for(const f of visibleFields){
+    const el = stage.querySelector(`.field-box[data-id="${CSS.escape(f.id)}"] .field-text`);
+    if(!el) continue;
+    const widthMM = (f.width/100) * placement.checkW;
+    let canvas = await captureFieldCanvas(el, widthMM);
+    canvas = rotateCanvas(canvas, placement.rotation);
+    const rotWidthMM = canvas.width / PX_PER_MM;
+    const rotHeightMM = canvas.height / PX_PER_MM;
+
+    let pageX, pageY;
+    if(f.printRight != null && f.printTop != null){
+      pageX = placement.pageWidthMM - f.printRight - rotWidthMM;
+      pageY = f.printTop;
+    }else{
+      const box = computeRotatedBox(
+        (f.left/100) * placement.checkW, (f.top/100) * placement.checkH,
+        (f.width/100) * placement.checkW, (f.height/100) * placement.checkH,
+        placement.checkW, placement.checkH, placement.rotation
+      );
+      pageX = placement.offX + box.left;
+      pageY = placement.offY + box.top;
+    }
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', pageX, pageY, rotWidthMM, rotHeightMM);
+  }
 }
 
 document.getElementById('exportBtn').addEventListener('click', async () => {
+  if(!confirmNationalIdOrAbort()) return;
   const btn = document.getElementById('exportBtn');
   const original = btn.textContent;
   btn.textContent = 'در حال آماده‌سازی...';
@@ -920,11 +1021,10 @@ document.getElementById('exportBtn').addEventListener('click', async () => {
   body.classList.add('exporting');
   await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
   try{
-    const p = getPagePlacement();
-    const imgData = await capturePageImage(p.rotation);
+    const placement = getPagePlacement();
     const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ orientation: p.orientation, unit:'mm', format:'a4' });
-    pdf.addImage(imgData, 'PNG', p.offX, p.offY, p.placedW, p.placedH);
+    const pdf = new jsPDF({ orientation: placement.orientation, unit:'mm', format:'a4' });
+    await renderCheckPageToPdf(pdf, true, placement);
     pdf.save('cheque.pdf');
   }catch(err){
     alert('خطا در ساخت PDF: ' + err.message);
@@ -1009,6 +1109,7 @@ document.getElementById('genBatchBtn').addEventListener('click', () => {
 
 document.getElementById('exportBatchBtn').addEventListener('click', async () => {
   if(batchDates.length === 0) return;
+  if(!confirmNationalIdOrAbort()) return;
   const btn = document.getElementById('exportBatchBtn');
   const original = btn.textContent;
   btn.disabled = true;
@@ -1023,9 +1124,9 @@ document.getElementById('exportBatchBtn').addEventListener('click', async () => 
   const savedDateWords = dateWordsField ? dateWordsField.text : '';
 
   try{
-    const p = getPagePlacement();
+    const placement = getPagePlacement();
     const { jsPDF } = window.jspdf;
-    let pdf = null;
+    const pdf = new jsPDF({ orientation: placement.orientation, unit:'mm', format:'a4' });
     for(let i = 0; i < batchDates.length; i++){
       btn.textContent = `در حال ساخت چک ${toFaDigits(i+1)} از ${toFaDigits(batchDates.length)}...`;
       const d = batchDates[i];
@@ -1033,13 +1134,7 @@ document.getElementById('exportBatchBtn').addEventListener('click', async () => 
       if(dateWordsField) dateWordsField.text = formatDateWords(d.year, d.month, d.day);
       renderFields();
       await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
-      const imgData = await capturePageImage(p.rotation);
-      if(!pdf){
-        pdf = new jsPDF({ orientation: p.orientation, unit:'mm', format:'a4' });
-      }else{
-        pdf.addPage('a4', p.orientation);
-      }
-      pdf.addImage(imgData, 'PNG', p.offX, p.offY, p.placedW, p.placedH);
+      await renderCheckPageToPdf(pdf, i === 0, placement);
     }
     pdf.save('cheques-batch.pdf');
   }catch(err){
