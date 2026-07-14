@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>چک‌نویس آنلاین رایگان | تکمیل، پر کردن و چاپ چک صیادی ایرانی</title>
+<meta name="description" content="ابزار رایگان و آنلاین چک‌نویسی: تاریخ شمسی، مبلغ به عدد و حروف، در وجه، کد ملی و شناسه ملی را روی چک تایپ کنید و خروجی PDF آماده چاپ روی برگه چک واقعی بگیرید. صدور دسته‌ای چند چک با فاصله زمانی و یادآور تقویم سررسید چک (با دو اعلان: روز قبل و صبح روز سررسید) هم دارد.">
+<meta name="keywords" content="چک نویس, چک نویس آنلاین, پر کردن چک, چاپ چک, چک صیادی, مبلغ به حروف, تبدیل عدد به حروف فارسی, کد ملی, شناسه ملی, تاریخ شمسی, یادآور سررسید چک, یادآور تقویم چک">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Cheque Filler">
+<link rel="canonical" href="https://your-username.github.io/cheque-filler/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="چک‌نویس آنلاین رایگان | تکمیل و چاپ چک ایرانی">
+<meta property="og:description" content="تاریخ، مبلغ (به عدد و حروف)، در وجه و کد ملی را روی چک تایپ کنید و PDF آماده چاپ بگیرید — رایگان، بدون نصب، همه‌چیز در همان مرورگر شما.">
+<meta property="og:locale" content="fa_IR">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%237a1f2b'/%3E%3Ctext x='50' y='64' font-size='44' fill='white' text-anchor='middle' font-family='Tahoma'%3E%DA%86%DA%A9%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "چک‌نویس آنلاین",
+  "description": "ابزار رایگان آنلاین برای تکمیل و چاپ چک ایرانی شامل تاریخ شمسی، مبلغ به عدد و حروف، در وجه و کد ملی، با خروجی PDF آماده چاپ.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "IRR" },
+  "inLanguage": "fa"
+}
+</script>
+<style>
+  :root{
+    --bg:#efe9db;
+    --paper:#fbf8f1;
+    --ink:#221e1c;
+    --ink-soft:#6b6259;
+    --line:#ddd2ba;
+    --maroon:#7a1f2b;
+    --maroon-dark:#591016;
+    --gold:#a9822f;
+    --teal:#1f5c53;
+    --danger:#b3392c;
+    --radius:14px;
+    --stage-scale:1;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    background-image:
+      radial-gradient(circle at 10% 0%, rgba(122,31,43,0.06), transparent 40%),
+      radial-gradient(circle at 90% 100%, rgba(31,92,83,0.06), transparent 40%);
+    color:var(--ink);
+    font-family:'Vazirmatn', Tahoma, 'Segoe UI', sans-serif;
+    min-height:100vh;
+  }
+  .app{max-width:1180px;margin:0 auto;padding:18px 16px 90px;}
+  header.top{
+    display:flex;align-items:center;gap:12px;justify-content:space-between;
+    margin-bottom:18px;
+  }
+  header.top .brand{display:flex;align-items:center;gap:10px;}
+  header.top .brand .mark{
+    width:38px;height:38px;border-radius:10px;
+    background:linear-gradient(135deg,var(--maroon),var(--maroon-dark));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:800;font-size:16px;letter-spacing:0;
+    box-shadow:0 3px 10px rgba(122,31,43,0.35);
+  }
+  header.top h1{font-size:18px;margin:0;font-weight:800;}
+  header.top p{margin:2px 0 0;font-size:12px;color:var(--ink-soft);}
+
+  .layout{display:flex;flex-direction:column;gap:20px;}
+  .preview-title{font-size:14px;font-weight:800;color:var(--maroon-dark);margin:0 0 10px;}
+
+  /* ---------- Stage / preview ---------- */
+  .stage-card{
+    background:var(--paper);
+    border-radius:var(--radius);
+    border:1px solid var(--line);
+    padding:14px;
+    box-shadow:0 10px 30px -18px rgba(34,30,28,0.5);
+  }
+  .stage-outer{width:100%;position:relative;}
+  #checkStage{
+    position:relative;
+    width:100%;
+    aspect-ratio:511/254;
+    background:
+      repeating-linear-gradient(180deg, rgba(122,31,43,0.05) 0, rgba(122,31,43,0.05) 1px, transparent 1px, transparent 34px),
+      linear-gradient(135deg, #fdfaf3, #f7f1e6);
+    border:1.5px dashed var(--line);
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 0 0 1px rgba(0,0,0,0.05);
+    user-select:none;
+    touch-action:none;
+  }
+  .field-box{
+    position:absolute;
+    display:flex;
+    outline:none;
+  }
+  .field-text{
+    width:100%;height:100%;
+    outline:none;
+    line-height:1.25;
+    color:#1a1a2e;
+    background:transparent;
+    white-space:pre-wrap;
+    overflow:hidden;
+    padding:0 2px;
+    font-family:'Vazirmatn', Tahoma, sans-serif;
+    cursor:text;
+  }
+  .field-text:empty::before{
+    content: attr(data-placeholder);
+    color:rgba(122,31,43,0.38);
+  }
+  body.exporting .field-text:empty::before{content:none;}
+
+  .stage-hint{font-size:11.5px;color:var(--ink-soft);margin:8px 2px 0;text-align:center;}
+
+  /* ---------- Actions bar ---------- */
+  .actions{
+    display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;
+  }
+  button{
+    font-family:inherit;
+    border:none;cursor:pointer;
+    border-radius:10px;
+    font-size:13.5px;
+    font-weight:600;
+    padding:11px 16px;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+  }
+  button:active{transform:scale(0.97);}
+  .btn-primary{background:linear-gradient(135deg,var(--maroon),var(--maroon-dark));color:#fff;box-shadow:0 6px 16px -6px rgba(122,31,43,0.6);flex:1 1 220px;}
+  .btn-secondary{background:#fff;color:var(--ink);border:1px solid var(--line);}
+  .btn-ghost{background:transparent;color:var(--ink-soft);border:1px dashed var(--line);}
+
+  /* ---------- Panel ---------- */
+  .panel{display:flex;flex-direction:column;gap:14px;}
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:14px 14px 16px;
+  }
+  .card h2{
+    font-size:13px;margin:0 0 10px;
+    display:flex;align-items:center;gap:8px;
+    color:var(--maroon-dark);
+    font-weight:800;
+  }
+  .card h2 .num{
+    width:20px;height:20px;border-radius:50%;
+    background:var(--maroon);color:#fff;
+    font-size:11px;display:flex;align-items:center;justify-content:center;
+  }
+  .row{display:flex;gap:8px;}
+  .field-group{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;}
+  .field-group label{font-size:11.5px;color:var(--ink-soft);font-weight:600;}
+  select,input[type=text],input[type=number]{
+    font-family:inherit;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:8px;
+    padding:9px 10px;
+    font-size:14px;
+    color:var(--ink);
+    width:100%;
+    direction:rtl;
+    text-align:right;
+  }
+  select:focus,input:focus{outline:2px solid var(--gold);outline-offset:1px;}
+  .amount-preview{
+    margin-top:2px;
+    font-size:12.5px;
+    color:var(--teal);
+    background:rgba(31,92,83,0.07);
+    border-radius:8px;
+    padding:8px 10px;
+    line-height:1.7;
+    min-height:20px;
+  }
+  .muted{color:var(--ink-soft);font-size:11.5px;line-height:1.7;}
+
+  /* calibration table */
+  .calib-list{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow:auto;padding-left:2px;}
+  .calib-item{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff;}
+  .calib-item .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .calib-item .head strong{font-size:12.5px;}
+  .calib-item .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .calib-item .grid4 div{display:flex;flex-direction:column;gap:2px;}
+  .calib-item .grid4 label{font-size:9.5px;color:var(--ink-soft);}
+  .calib-item .grid4 input{padding:5px 6px;font-size:12px;}
+
+  .checkbox-row{
+    display:flex;align-items:center;gap:8px;
+    margin-top:12px;padding-top:10px;
+    border-top:1px dashed var(--line);
+    font-size:12.5px;color:var(--ink-soft);cursor:pointer;
+  }
+  .checkbox-row input{width:16px;height:16px;accent-color:var(--maroon);cursor:pointer;}
+  #batchPanel{margin-top:10px;}
+
+  footer{text-align:center;font-size:11px;color:var(--ink-soft);margin-top:26px;}
+</style>
+<script>
+            !function(e,t,n){e.yektanetAnalyticsObject=n,e[n]=e[n]||function(){e[n].q.push(arguments)},e[n].q=e[n].q||[];var a=t.getElementsByTagName("head")[0],r=new Date,c="https://cdn.yektanet.com/superscript/YIuDlHZU/native-esiesi872.github.io-47339/yn_pub.js?v="+r.getFullYear().toString()+"0"+r.getMonth()+"0"+r.getDate()+"0"+r.getHours(),s=t.createElement("link");s.rel="preload",s.as="script",s.href=c,a.appendChild(s);var l=t.createElement("script");l.async=!0,l.src=c,a.appendChild(l)}(window,document,"yektanet");
+        </script>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand">
+      <div class="mark">چک</div>
+      <div>
+        <h1>چک‌نویس آنلاین</h1>
+        <p>تکمیل متن چک و خروجی PDF آماده چاپ</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-shrink:0;">
+      <button class="btn-secondary" id="aboutBtn">ℹ️ درباره</button>
+      <button class="btn-secondary" id="helpBtn">❓ راهنما</button>
+    </div>
+  </header>
+
+  <div id="aboutOverlay" style="display:none;position:fixed;inset:0;background:rgba(20,15,10,0.55);z-index:100;padding:20px;overflow:auto;">
+    <div style="max-width:480px;margin:0 auto;background:var(--paper);border-radius:16px;padding:22px;position:relative;">
+      <button id="aboutCloseBtn" aria-label="بستن" style="position:absolute;top:14px;left:14px;background:none;font-size:20px;color:var(--ink-soft);padding:4px 10px;">✕</button>
+      <h2 style="margin-top:0;color:var(--maroon-dark);">درباره چک‌نویس</h2>
+      <p>این صفحه توسط <strong>احسان یاقوتی</strong> توسعه داده شده است.</p>
+      <p>جهت ارتباط، از طریق ایمیل زیر مکاتبه کنید:<br>
+        <a href="mailto:ey1234@gmail.com" style="color:var(--maroon);font-weight:600;">ey1234@gmail.com</a>
+      </p>
+      <p>تاریخ انتشار: ۱۴۰۵/۰۵/۲۰</p>
+    </div>
+  </div>
+
+  <div id="helpOverlay" style="display:none;position:fixed;inset:0;background:rgba(20,15,10,0.55);z-index:100;padding:20px;overflow:auto;">
+    <div style="max-width:640px;margin:0 auto;background:var(--paper);border-radius:16px;padding:22px;position:relative;">
+      <button id="helpCloseBtn" aria-label="بستن راهنما" style="position:absolute;top:14px;left:14px;background:none;font-size:20px;color:var(--ink-soft);padding:4px 10px;">✕</button>
+      <h2 style="margin-top:0;color:var(--maroon-dark);">راهنمای کامل چک‌نویس آنلاین</h2>
+
+      <p>چک‌نویس یک ابزار رایگان و آنلاین برای <strong>تکمیل و چاپ چک بانکی ایرانی (چک صیادی)</strong> است. تاریخ شمسی، مبلغ (به عدد و حروف)، در وجه و کد ملی/شناسه ملی گیرنده را تایپ می‌کنید و یک فایل PDF آماده چاپ روی برگه چک واقعی می‌گیرید — بدون نصب برنامه و بدون ارسال اطلاعات چک به هیچ سروری؛ همه‌چیز همان لحظه در مرورگر خودتان انجام می‌شود.</p>
+
+      <div style="background:rgba(122,31,43,0.06);border-radius:10px;padding:12px 16px;margin:16px 0;">
+        <strong style="font-size:13px;">فهرست راهنما:</strong>
+        <ol style="margin:8px 0 0;padding-inline-start:20px;font-size:13px;line-height:2;">
+          <li><a href="#help-date" style="color:var(--maroon);">تاریخ و صدور چند چک</a></li>
+          <li><a href="#help-amount" style="color:var(--maroon);">مبلغ به عدد و حروف</a></li>
+          <li><a href="#help-payee" style="color:var(--maroon);">در وجه و کد ملی/شناسه ملی</a></li>
+          <li><a href="#help-type" style="color:var(--maroon);">تایپ مستقیم روی چک</a></li>
+          <li><a href="#help-pdf" style="color:var(--maroon);">دانلود PDF چک</a></li>
+          <li><a href="#help-calendar" style="color:var(--maroon);"><strong>یادآور تقویم سررسید چک (مفصل)</strong></a></li>
+        </ol>
+      </div>
+
+      <h3 id="help-date">۱. تاریخ و صدور چند چک با فاصله زمانی</h3>
+      <p>روز، ماه و سال شمسی را از فهرست انتخاب کنید و «ثبت تاریخ روی چک» را بزنید. تاریخ هم به عدد و هم به حروف روی چک نوشته می‌شود.</p>
+      <p>اگر چند چک با فاصله زمانی ثابت می‌نویسید (مثلاً چک‌های اقساطی ماهانه)، تیک «صدور چند چک با فاصله زمانی ثابت» را بزنید، تعداد چک و فاصله (روز یا ماه) را مشخص کنید و «ساخت لیست تاریخ‌ها» را بزنید. روز هفته هر تاریخ هم نمایش داده می‌شود و هر تاریخ به‌صورت جداگانه قابل ویرایش دستی است. در پایان با «دانلود PDF همه چک‌ها»، یک فایل چندصفحه‌ای می‌گیرید که هر چک در یک صفحه A4 جداست.</p>
+
+      <h3 id="help-amount">۲. مبلغ به عدد و حروف</h3>
+      <p>مبلغ را به ریال و فقط به‌صورت عدد وارد کنید. نرم‌افزار به‌طور خودکار آن را به‌صورت سه‌رقم سه‌رقم با علامت «،» و همچنین به حروف فارسی می‌نویسد و برای جلوگیری از دست‌کاری، در انتهای هر دو، چهار ستاره (****) اضافه می‌کند.</p>
+
+      <h3 id="help-payee">۳. در وجه و کد ملی/شناسه ملی</h3>
+      <p>نام گیرنده چک و کد ملی (۱۰ رقمی برای اشخاص حقیقی) یا شناسه ملی (۱۱ رقمی برای اشخاص حقوقی) را وارد کنید. صحت کد به‌صورت خودکار و طبق الگوریتم رسمی بررسی می‌شود؛ اگر نامعتبر باشد، پیش از ساخت PDF به شما اخطار داده می‌شود و می‌توانید تصمیم بگیرید ادامه دهید یا اصلاح کنید.</p>
+
+      <h3 id="help-type">۴. تایپ مستقیم روی چک</h3>
+      <p>می‌توانید به‌جای کادرهای فرم، مستقیماً روی هر بخش از کادر چک (در پایین صفحه) لمس یا کلیک کرده و تایپ کنید.</p>
+
+      <h3 id="help-pdf">۵. دانلود PDF چک</h3>
+      <p>با دکمه «دانلود PDF چک» یک فایل آماده چاپ در سایز A4 دریافت می‌کنید. کادر چک روی صفحه فقط یک راهنمای بصری برای چیدمان است و در فایل نهایی چاپ نمی‌شود — چون قرار است متن‌ها روی برگه چک واقعی (که از قبل توسط بانک چاپ شده) بیفتد.</p>
+
+      <h3 id="help-calendar">۶. یادآور تقویم سررسید چک — راهنمای کامل</h3>
+      <p>یکی از پرکاربردترین قابلیت‌های چک‌نویس، ساخت خودکار <strong>یادآور تقویم برای سررسید چک</strong> است تا هیچ‌وقت فراموش نکنید که باید موجودی حساب را برای پاس‌شدن چک آماده کنید یا چک دریافتی را وصول کنید.</p>
+
+      <p><strong>این قابلیت چه کاری انجام می‌دهد؟</strong><br>
+      با زدن دکمه‌های یادآور، یک فایل استاندارد تقویمی با پسوند <code>.ics</code> ساخته و دانلود می‌شود. این فرمت توسط تقریباً همه تقویم‌ها پشتیبانی می‌شود: Google Calendar، تقویم پیش‌فرض آیفون/آیپد (Apple Calendar)، Outlook، تقویم اندروید و غیره. با باز کردن همین یک فایل، یک رویداد کامل به‌طور خودکار به تقویم شما اضافه می‌شود — نیازی به تایپ دستی هیچ‌چیزی در تقویم نیست.</p>
+
+      <p><strong>در رویداد ساخته‌شده چه اطلاعاتی هست؟</strong></p>
+      <ul style="padding-inline-start:20px;line-height:1.9;">
+        <li>عنوان رویداد شامل نام بانک (اگر وارد کرده باشید)، نام گیرنده و مبلغ چک</li>
+        <li>توضیحات کامل رویداد شامل: نام بانک، در وجه، مبلغ، کد ملی/شناسه ملی گیرنده و تاریخ دقیق چک</li>
+        <li>زمان‌بندی رویداد روی ساعت ۹ صبح تاریخ سررسید چک تنظیم می‌شود</li>
+      </ul>
+
+      <p><strong>چرا دو یادآوری جداگانه تنظیم می‌شود؟</strong><br>
+      برای اینکه غافلگیر نشوید، برای هر چک <strong>دو اعلان جداگانه</strong> در تقویم فعال می‌شود:</p>
+      <ul style="padding-inline-start:20px;line-height:1.9;">
+        <li>🔔 <strong>یک روز قبل، ساعت ۹ صبح</strong> — فرصت کافی برای واریز یا تأمین موجودی حساب</li>
+        <li>🔔 <strong>صبح خودِ روز سررسید، ساعت ۷:۳۰</strong> — یادآوری نهایی همان روز، قبل از شروع ساعات کاری بانک</li>
+      </ul>
+
+      <p><strong>چطور از این قابلیت استفاده کنم؟</strong></p>
+      <ol style="padding-inline-start:20px;line-height:1.9;">
+        <li>اول تاریخ، مبلغ، در وجه و کد ملی را طبق مراحل ۱ تا ۳ ثبت کنید.</li>
+        <li>در صورت تمایل، نام بانک را در کادر بالای دکمه‌های یادآور (زیر کادر چک) وارد کنید تا در عنوان و توضیحات رویداد نمایش داده شود.</li>
+        <li>روی «🔔 یادآور تقویم برای این چک» بزنید. یک فایل <code>.ics</code> دانلود می‌شود.</li>
+        <li>فایل دانلودشده را روی گوشی یا کامپیوترتان باز کنید؛ سیستم‌عامل یا تقویم شما به‌طور خودکار گزینه «افزودن به تقویم» را نشان می‌دهد.</li>
+        <li>تأیید کنید — رویداد به همراه هر دو یادآوری، در تقویم شما ثبت می‌شود.</li>
+      </ol>
+
+      <p><strong>حالت چند چک (دسته‌ای):</strong><br>
+      اگر از قابلیت «صدور چند چک با فاصله زمانی ثابت» استفاده کرده و لیست چند تاریخ ساخته باشید، دکمه «🔔 یادآور تقویم برای همه چک‌ها» ظاهر می‌شود. با یک بار زدن این دکمه، یک فایل تقویمی واحد دانلود می‌شود که شامل یادآور <strong>همه چک‌ها با هم</strong> است — هر چک با تاریخ، مبلغ و یادآوری دو‌مرحله‌ای مخصوص به خودش، بدون نیاز به دانلود جداگانه برای هر چک.</p>
+
+      <p style="margin-top:18px;"><strong>حریم خصوصی:</strong> اطلاعات چک شما هیچ‌وقت به هیچ سروری ارسال نمی‌شود و فقط در همان صفحه مرورگرتان پردازش می‌شود؛ فایل تقویمی هم مستقیماً روی دستگاه خودتان ساخته و دانلود می‌شود.</p>
+
+      <p style="margin-top:18px;"><strong>حریم خصوصی:</strong> اطلاعات چک شما هیچ‌وقت به هیچ سروری ارسال نمی‌شود و فقط در همان صفحه مرورگرتان پردازش می‌شود.</p>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!-- ============ PANEL ============ -->
+    <div class="panel">
+
+      <div class="card">
+        <h2><span class="num">1</span> تاریخ (شمسی)</h2>
+        <div class="row">
+          <div class="field-group" style="flex:1">
+            <label>روز</label>
+            <select id="selDay"></select>
+          </div>
+          <div class="field-group" style="flex:1.4">
+            <label>ماه</label>
+            <select id="selMonth"></select>
+          </div>
+          <div class="field-group" style="flex:1">
+            <label>سال</label>
+            <input type="number" id="selYear" inputmode="numeric">
+          </div>
+        </div>
+        <button class="btn-secondary" id="applyDateBtn" style="width:100%">ثبت تاریخ روی چک</button>
+
+        <label class="checkbox-row">
+          <input type="checkbox" id="batchToggle">
+          <span>صدور چند چک با فاصله زمانی ثابت</span>
+        </label>
+
+        <div id="batchPanel" style="display:none;">
+          <div class="row">
+            <div class="field-group" style="flex:1">
+              <label>تعداد چک</label>
+              <input type="number" id="batchCount" value="3" min="1" max="60">
+            </div>
+            <div class="field-group" style="flex:1">
+              <label>هر</label>
+              <input type="number" id="batchInterval" value="1" min="1">
+            </div>
+            <div class="field-group" style="flex:1.2">
+              <label>واحد فاصله</label>
+              <select id="batchUnit">
+                <option value="month" selected>ماه</option>
+                <option value="day">روز</option>
+              </select>
+            </div>
+          </div>
+          <p class="muted">تاریخ چک اول از تاریخ بالا شروع می‌شود؛ بقیه به‌ترتیب با همین فاصله جلو می‌روند. مبلغ، در وجه و کد ملی برای همه چک‌ها یکسان می‌ماند.</p>
+          <button class="btn-secondary" id="genBatchBtn" style="width:100%">ساخت لیست تاریخ‌ها</button>
+          <div id="batchList" class="calib-list" style="margin-top:10px;"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="num">2</span> مبلغ</h2>
+        <div class="field-group">
+          <label>مبلغ به ریال (فقط عدد)</label>
+          <input type="text" id="amountInput" inputmode="numeric" placeholder="مثلاً 12500000">
+        </div>
+        <div class="amount-preview" id="amountPreview">مبلغ را وارد کنید تا به‌صورت خودکار به عدد (۳ رقم ۳ رقم با «،») و حروف نوشته شود.</div>
+        <button class="btn-secondary" id="applyAmountBtn" style="width:100%;margin-top:8px;">ثبت مبلغ روی چک</button>
+      </div>
+
+      <div class="card">
+        <h2><span class="num">3</span> در وجه و کد ملی</h2>
+        <div class="field-group">
+          <label>در وجه (گیرنده وجه)</label>
+          <input type="text" id="payeeInput" placeholder="نام گیرنده چک">
+        </div>
+        <div class="field-group">
+          <label>شماره ملی گیرنده</label>
+          <input type="text" id="nationalIdInput" inputmode="numeric" placeholder="کد ملی ۱۰ رقمی یا شناسه ملی ۱۱ رقمی">
+          <span id="nationalIdStatus" class="muted" style="min-height:16px;display:block;"></span>
+        </div>
+        <button class="btn-secondary" id="applyTextBtn" style="width:100%">ثبت روی چک</button>
+        <p class="muted" style="margin-top:8px">نکته: این فیلدها را می‌توانید مستقیماً هم روی کادر چک لمس و تایپ کنید؛ نیازی به این کادرها نیست.</p>
+      </div>
+
+    </div>
+
+    <!-- ============ STAGE (bottom preview) ============ -->
+    <div class="stage-card">
+      <h2 class="preview-title">پیش‌نمایش نهایی چک</h2>
+      <div class="stage-outer">
+        <div id="checkStage">
+        </div>
+      </div>
+      <p class="stage-hint">مستقیماً روی هر بخش از چک ضربه بزنید و تایپ کنید. خروجی نهایی یک فایل PDF در سایز A4 خواهد بود.</p>
+
+      <div class="row" style="margin-top:10px;">
+        <div class="field-group" style="flex:1">
+          <label>نام بانک (برای یادآور تقویم)</label>
+          <input type="text" id="bankNameInput" placeholder="مثلاً بانک صادرات">
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn-primary" id="exportBtn">⬇ دانلود PDF چک (A4)</button>
+        <button class="btn-primary" id="exportBatchBtn" style="display:none;background:linear-gradient(135deg,var(--teal),#123f38);">⬇ دانلود PDF همه چک‌ها (چندصفحه‌ای)</button>
+        <button class="btn-secondary" id="addCalendarBtn">🔔 یادآور تقویم برای این چک</button>
+        <button class="btn-secondary" id="addCalendarBatchBtn" style="display:none;">🔔 یادآور تقویم برای همه چک‌ها</button>
+        <button class="btn-ghost" id="clearTextBtn">پاک‌کردن متن‌ها</button>
+      </div>
+      <p class="muted" style="margin-top:8px;">دکمه‌های یادآور یک فایل تقویمی (.ics) می‌سازند که با باز کردنش، رویداد سررسید چک همراه با نام بانک، مبلغ و نام گیرنده، به گوگل‌کلندر/تقویم گوشی شما اضافه می‌شود؛ دو یادآوری تنظیم می‌شود: ساعت ۹ صبح روز قبل، و ساعت ۷:۳۰ صبح خودِ روز سررسید.</p>
+    </div>
+
+    <!-- ============ SECONDARY PANEL (rarely-needed settings, shown last) ============ -->
+    <div class="panel">
+
+      <div class="card">
+        <h2><span class="num">4</span> صفحه چاپ (A4)</h2>
+        <div class="row">
+          <div class="field-group" style="flex:1">
+            <label>جهت صفحه</label>
+            <select id="pageOrientation">
+              <option value="portrait" selected>عمودی (Portrait)</option>
+              <option value="landscape">افقی (Landscape)</option>
+            </select>
+          </div>
+          <div class="field-group" style="flex:1">
+            <label>چرخش چک روی صفحه</label>
+            <select id="contentRotation">
+              <option value="0">بدون چرخش</option>
+              <option value="90">۹۰ درجه</option>
+              <option value="180">۱۸۰ درجه</option>
+              <option value="270" selected>۲۷۰ درجه</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field-group" style="flex:1">
+            <label>عرض چک (mm)</label>
+            <input type="number" id="checkWidthMM" value="170" step="0.5">
+          </div>
+          <div class="field-group" style="flex:1">
+            <label>ارتفاع چک (mm)</label>
+            <input type="number" id="checkHeightMM" value="85" step="0.5">
+          </div>
+        </div>
+        <div class="row">
+          <div class="field-group" style="flex:1">
+            <label>فاصله از چپ صفحه (mm)</label>
+            <input type="number" id="offsetLeftMM" value="67.5" step="0.5">
+          </div>
+          <div class="field-group" style="flex:1">
+            <label>فاصله از بالای صفحه (mm)</label>
+            <input type="number" id="offsetTopMM" value="0" step="0.5">
+          </div>
+        </div>
+        <p class="muted">کادر چک روی صفحه فقط یک راهنمای بصری برای چیدمان است و در فایل PDF نهایی چاپ نمی‌شود — فقط متن‌ها چاپ می‌شوند تا روی برگه چک واقعی (که از قبل چاپ شده) بنشینند. فیلدهایی که موقعیت دقیق چاپ (mm از راست/بالا) دارند با همان مختصات دقیق چاپ می‌شوند؛ فاصله از چپ/بالای این کارت فقط برای بقیه فیلدها (که موقعیت دقیق ندارند) به‌کار می‌رود.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>تکمیل و ساخت PDF چک در همین مرورگر انجام می‌شود و اطلاعات چک به جایی ارسال نمی‌شود؛ این صفحه صرفاً برای نمایش آگهی از سرویس یکتانت اسکریپت آماری/تبلیغاتی بارگذاری می‌کند.</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ================= Background image ================= */
+/* Background check image removed to keep the page lightweight. */
+
+/* ================= Persian helpers ================= */
+const faDigitsMap = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+function toFaDigits(input){
+  return String(input).replace(/[0-9]/g, d => faDigitsMap[d]);
+}
+function toEnDigits(input){
+  return String(input).replace(/[۰-۹]/g, d => faDigitsMap.indexOf(d));
+}
+function groupWithSlash(numStr){
+  numStr = String(numStr).replace(/\D/g,'');
+  if(!numStr) return '';
+  numStr = numStr.replace(/^0+(?=\d)/,'');
+  return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+/* Persian number -> words */
+const ONES = ["","یک","دو","سه","چهار","پنج","شش","هفت","هشت","نه"];
+const TEENS = ["ده","یازده","دوازده","سیزده","چهارده","پانزده","شانزده","هفده","هجده","نوزده"];
+const TENS = ["","ده","بیست","سی","چهل","پنجاه","شصت","هفتاد","هشتاد","نود"];
+const HUNDREDS = ["","صد","دویست","سیصد","چهارصد","پانصد","ششصد","هفتصد","هشتصد","نهصد"];
+const SCALES = ["","هزار","میلیون","میلیارد","تریلیون","کوادریلیون"];
+
+function threeDigitToWords(n){
+  const h = Math.floor(n/100), r = n % 100;
+  const parts = [];
+  if(h > 0) parts.push(HUNDREDS[h]);
+  if(r > 0){
+    if(r < 10) parts.push(ONES[r]);
+    else if(r < 20) parts.push(TEENS[r-10]);
+    else{
+      const t = Math.floor(r/10), o = r % 10;
+      parts.push(o === 0 ? TENS[t] : (TENS[t] + " و " + ONES[o]));
+    }
+  }
+  return parts.join(" و ");
+}
+
+function numberToPersianWords(num){
+  num = Math.floor(Math.abs(Number(num) || 0));
+  if(num === 0) return "صفر";
+  const groups = [];
+  while(num > 0){ groups.push(num % 1000); num = Math.floor(num/1000); }
+  const parts = [];
+  for(let i = groups.length - 1; i >= 0; i--){
+    if(groups[i] > 0){
+      const words = threeDigitToWords(groups[i]);
+      parts.push(SCALES[i] ? (words + " " + SCALES[i]) : words);
+    }
+  }
+  return parts.join(" و ");
+}
+
+/* ================= Jalali date defaults ================= */
+const FA_MONTHS = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+const DAY_ORDINALS = ["","یکم","دوم","سوم","چهارم","پنجم","ششم","هفتم","هشتم","نهم","دهم",
+  "یازدهم","دوازدهم","سیزدهم","چهاردهم","پانزدهم","شانزدهم","هفدهم","هجدهم","نوزدهم","بیستم",
+  "بیست و یکم","بیست و دوم","بیست و سوم","بیست و چهارم","بیست و پنجم","بیست و ششم","بیست و هفتم","بیست و هشتم","بیست و نهم","سی‌ام","سی و یکم"];
+
+function isLeapJalali(year){
+  const r = ((year % 33) + 33) % 33;
+  return [1,5,9,13,17,22,26,30].includes(r);
+}
+function jalaliMonthLength(y, m){
+  if(m <= 6) return 31;
+  if(m <= 11) return 30;
+  return isLeapJalali(y) ? 30 : 29;
+}
+function addJalaliMonths(y, m, d, n){
+  let total = (y * 12) + (m - 1) + n;
+  const ny = Math.floor(total / 12);
+  const nm = (total % 12) + 1;
+  const nd = Math.min(d, jalaliMonthLength(ny, nm));
+  return { year: ny, month: nm, day: nd };
+}
+function addJalaliDays(y, m, d, n){
+  let year = y, month = m, day = d;
+  let remaining = n;
+  while(remaining > 0){
+    const dim = jalaliMonthLength(year, month);
+    if(day + remaining <= dim){ day += remaining; remaining = 0; }
+    else{ remaining -= (dim - day + 1); day = 1; month += 1; if(month > 12){ month = 1; year += 1; } }
+  }
+  return { year, month, day };
+}
+
+function jalaliToGregorian(jy, jm, jd){
+  let gy;
+  if(jy > 979){ gy = 1600; jy -= 979; } else { gy = 621; }
+  let days = (365 * jy) + (Math.floor(jy / 33) * 8) + Math.floor(((jy % 33) + 3) / 4) + 78 + jd + ((jm < 7) ? (jm - 1) * 31 : ((jm - 7) * 30) + 186);
+  gy += 400 * Math.floor(days / 146097);
+  days %= 146097;
+  if(days > 36524){
+    gy += 100 * Math.floor(--days / 36524);
+    days %= 36524;
+    if(days >= 365) days++;
+  }
+  gy += 4 * Math.floor(days / 1461);
+  days %= 1461;
+  if(days > 365){
+    gy += Math.floor((days - 1) / 365);
+    days = (days - 1) % 365;
+  }
+  let gd = days + 1;
+  const salA = [0, 31, ((gy % 4 === 0 && gy % 100 !== 0) || gy % 400 === 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  let gm;
+  for(gm = 1; gm <= 12; gm++){
+    const v = salA[gm];
+    if(gd <= v) break;
+    gd -= v;
+  }
+  return { gy, gm, gd };
+}
+
+const FA_WEEKDAYS = ["یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه"];
+function jalaliWeekdayName(jy, jm, jd){
+  const { gy, gm, gd } = jalaliToGregorian(jy, jm, jd);
+  const dt = new Date(gy, gm - 1, gd);
+  return FA_WEEKDAYS[dt.getDay()];
+}
+
+function approxJalaliToday(){
+  const d = new Date();
+  const gy = d.getFullYear(), gm = d.getMonth()+1;
+  const jy = gm >= 3 && d.getDate() >= 21 || gm > 3 ? gy - 621 : gy - 622;
+  return { day: d.getDate(), month: Math.max(1, ((gm+9) % 12) + 1), year: jy };
+}
+
+/* ================= Field state ================= */
+const DEFAULT_FIELDS = [
+  { id:'location',     label:'محل',            left:55,   top:3,    width:21,   height:8,   fontSize:12,   align:'center', visible:true, text:'', printRight:null,  printTop:null },
+  { id:'date',         label:'تاریخ (عدد)',     left:79,   top:3,    width:22,   height:8,   fontSize:13,   align:'center', visible:true, text:'', printRight:131,   printTop:25.5 },
+  { id:'dateWords',    label:'تاریخ (حروف)',    left:77.5, top:11,   width:23.5, height:15,  fontSize:10.5, align:'right',  visible:true, text:'', printRight:120.5, printTop:37,  wrap:true, wrapShiftMM:4 },
+  { id:'amountDigits', label:'مبلغ به عدد',     left:8,    top:73.1, width:27,   height:11,  fontSize:13,   align:'center', visible:true, text:'', printRight:80,    printTop:100 },
+  { id:'amountWords',  label:'مبلغ به حروف',    left:5.4,  top:30,   width:87,   height:12,  fontSize:12.5, align:'right',  visible:true, text:'', printRight:108,   printTop:48.5 },
+  { id:'nationalId',   label:'شماره ملی گیرنده',left:6.6,  top:59.1, width:35,   height:12,  fontSize:11,   align:'right',  visible:true, text:'', printRight:102,   printTop:101 },
+  { id:'payee',        label:'در وجه',          left:45,   top:59.1, width:50,   height:12,  fontSize:13,   align:'right',  visible:true, text:'', printRight:97.5,  printTop:21 },
+];
+
+let fields = JSON.parse(JSON.stringify(DEFAULT_FIELDS));
+
+const stage = document.getElementById('checkStage');
+const body = document.body;
+
+function fieldPlaceholder(f){ return f.label; }
+
+function renderFields(){
+  // remove existing
+  stage.querySelectorAll('.field-box').forEach(el => el.remove());
+  fields.forEach(f => {
+    if(!f.visible) return;
+    const box = document.createElement('div');
+    box.className = 'field-box';
+    box.dataset.id = f.id;
+    box.style.left = f.left + '%';
+    box.style.top = f.top + '%';
+    box.style.width = f.width + '%';
+    box.style.height = f.height + '%';
+
+    const txt = document.createElement('div');
+    txt.className = 'field-text';
+    txt.contentEditable = "true";
+    txt.dir = 'rtl';
+    txt.style.textAlign = f.align;
+    txt.style.justifyContent = f.align === 'center' ? 'center' : (f.align === 'right' ? 'flex-start' : 'flex-end');
+    txt.setAttribute('data-placeholder', fieldPlaceholder(f));
+    txt.innerText = f.text || '';
+    txt.addEventListener('input', () => { f.text = txt.innerText; });
+    box.appendChild(txt);
+
+    stage.appendChild(box);
+  });
+  applyScale();
+}
+
+function applyScale(){
+  const w = stage.getBoundingClientRect().width;
+  const scale = w / 511;
+  stage.style.setProperty('--stage-scale', scale);
+  stage.querySelectorAll('.field-box').forEach(box => {
+    const f = fields.find(x => x.id === box.dataset.id);
+    if(!f) return;
+    const txt = box.querySelector('.field-text');
+    txt.style.fontSize = (f.fontSize * scale) + 'px';
+  });
+}
+window.addEventListener('resize', applyScale);
+
+/* ================= Toolbar actions ================= */
+document.getElementById('clearTextBtn').addEventListener('click', () => {
+  fields.forEach(f => f.text = '');
+  renderFields();
+});
+
+/* ================= Date panel ================= */
+const selDay = document.getElementById('selDay');
+const selMonth = document.getElementById('selMonth');
+const selYear = document.getElementById('selYear');
+
+for(let i=1;i<=31;i++){
+  const o = document.createElement('option'); o.value=i; o.textContent = toFaDigits(i);
+  selDay.appendChild(o);
+}
+FA_MONTHS.forEach((m,i) => {
+  const o = document.createElement('option'); o.value = i+1; o.textContent = m;
+  selMonth.appendChild(o);
+});
+const todayJ = approxJalaliToday();
+selDay.value = todayJ.day;
+selMonth.value = todayJ.month;
+selYear.value = todayJ.year;
+
+function formatDateDigits(y, m, d){
+  return toFaDigits(`${y}/${String(m).padStart(2,'0')}/${String(d).padStart(2,'0')}`);
+}
+function formatDateWords(y, m, d){
+  return `${DAY_ORDINALS[d]} ${FA_MONTHS[m-1]} ماه ${numberToPersianWords(y)}`;
+}
+
+document.getElementById('applyDateBtn').addEventListener('click', () => {
+  const day = parseInt(selDay.value, 10);
+  const month = parseInt(selMonth.value, 10);
+  const year = parseInt(selYear.value, 10);
+  const f = fields.find(x => x.id === 'date');
+  if(f) f.text = formatDateDigits(year, month, day);
+  const fw = fields.find(x => x.id === 'dateWords');
+  if(fw) fw.text = formatDateWords(year, month, day);
+  renderFields();
+});
+
+/* ================= Amount panel ================= */
+const amountInput = document.getElementById('amountInput');
+const amountPreview = document.getElementById('amountPreview');
+
+function updateAmountPreview(){
+  const raw = toEnDigits(amountInput.value).replace(/\D/g,'');
+  if(!raw){ amountPreview.textContent = 'مبلغ را وارد کنید تا به‌صورت خودکار به عدد (۳ رقم ۳ رقم با «،») و حروف نوشته شود.'; return; }
+  const grouped = toFaDigits(groupWithSlash(raw));
+  const words = numberToPersianWords(raw) + ' ریال';
+  amountPreview.innerHTML = `<b>به عدد:</b> ${grouped} ریال<br><b>به حروف:</b> ${words}`;
+}
+amountInput.addEventListener('input', () => {
+  const raw = toEnDigits(amountInput.value).replace(/\D/g, '');
+  amountInput.value = toFaDigits(groupWithSlash(raw));
+  updateAmountPreview();
+});
+
+document.getElementById('applyAmountBtn').addEventListener('click', () => {
+  const raw = toEnDigits(amountInput.value).replace(/\D/g,'');
+  if(!raw) return;
+  const digitsField = fields.find(x => x.id === 'amountDigits');
+  const wordsField = fields.find(x => x.id === 'amountWords');
+  if(digitsField) digitsField.text = toFaDigits(groupWithSlash(raw)) + ' ریال ****';
+  if(wordsField) wordsField.text = numberToPersianWords(raw) + ' ریال ****';
+  renderFields();
+});
+
+/* ================= Payee / national ID / purpose panel ================= */
+function validateIranianNationalCode(input){
+  const digits = toEnDigits(String(input || '')).replace(/\D/g, '');
+  if(digits.length === 10){
+    if(/^(\d)\1{9}$/.test(digits)) return { ok:false, type:'person', digits };
+    const d = digits.split('').map(Number);
+    const check = d[9];
+    let sum = 0;
+    for(let i = 0; i < 9; i++) sum += d[i] * (10 - i);
+    const rem = sum % 11;
+    const ok = rem < 2 ? (check === rem) : (check === 11 - rem);
+    return { ok, type:'person', digits };
+  }
+  if(digits.length === 11){
+    const d = digits.split('').map(Number);
+    const checkDigit = d[10];
+    const tensDigit = d[9];
+    const adjustment = tensDigit + 2;
+    const coef = [29, 27, 23, 19, 17, 29, 27, 23, 19, 17];
+    let sum = 0;
+    for(let i = 0; i < 10; i++) sum += (d[i] + adjustment) * coef[i];
+    let rem = sum % 11;
+    if(rem === 10) rem = 0;
+    const ok = rem === checkDigit;
+    return { ok, type:'legal', digits };
+  }
+  return { ok:false, type:'unknown', digits };
+}
+
+function nationalIdFeedbackText(res){
+  if(!res.digits) return '';
+  if(res.type === 'unknown') return '⚠️ طول کد باید ۱۰ رقم (کد ملی شخص حقیقی) یا ۱۱ رقم (شناسه ملی شخص حقوقی) باشد.';
+  if(res.ok) return res.type === 'person' ? '✅ کد ملی معتبر است.' : '✅ شناسه ملی معتبر است.';
+  return res.type === 'person' ? '⚠️ کد ملی نامعتبر به نظر می‌رسد.' : '⚠️ شناسه ملی نامعتبر به نظر می‌رسد.';
+}
+
+function updateNationalIdStatus(){
+  const res = validateIranianNationalCode(document.getElementById('nationalIdInput').value);
+  const statusEl = document.getElementById('nationalIdStatus');
+  statusEl.textContent = nationalIdFeedbackText(res);
+  statusEl.style.color = res.digits ? (res.ok ? 'var(--teal)' : 'var(--danger)') : '';
+}
+document.getElementById('nationalIdInput').addEventListener('input', updateNationalIdStatus);
+
+// Checked right before generating a PDF: if the currently-registered national ID / legal ID
+// text on the check fails the checksum, warn and ask for explicit confirmation to continue.
+function confirmNationalIdOrAbort(){
+  const nidField = fields.find(x => x.id === 'nationalId');
+  if(!nidField || !nidField.visible || !nidField.text || !nidField.text.trim()) return true;
+  const res = validateIranianNationalCode(nidField.text);
+  if(res.ok) return true;
+  const label = res.type === 'legal' ? 'شناسه ملی' : (res.type === 'person' ? 'کد ملی' : 'کد ملی/شناسه ملی');
+  return confirm(`${label} گیرنده که روی چک ثبت شده، معتبر به نظر نمی‌رسد (خطای الگوریتم کنترلی).\nآیا مایلید با همین حال PDF ساخته شود؟`);
+}
+
+document.getElementById('applyTextBtn').addEventListener('click', () => {
+  const payee = fields.find(x => x.id === 'payee');
+  const nid = fields.find(x => x.id === 'nationalId');
+  if(payee && document.getElementById('payeeInput').value.trim()) payee.text = document.getElementById('payeeInput').value.trim();
+  if(nid && document.getElementById('nationalIdInput').value.trim()) nid.text = toFaDigits(toEnDigits(document.getElementById('nationalIdInput').value.trim()));
+  updateNationalIdStatus();
+  renderFields();
+});
+
+/* ================= Export PDF (per-field precise placement) ================= */
+const PX_PER_MM = 12; // capture resolution used for print quality
+
+function rotateCanvas(srcCanvas, angleDeg){
+  const norm = ((angleDeg % 360) + 360) % 360;
+  if(norm === 0) return srcCanvas;
+  const rad = norm * Math.PI / 180;
+  const w = srcCanvas.width, h = srcCanvas.height;
+  const swapped = (norm === 90 || norm === 270);
+  const out = document.createElement('canvas');
+  out.width = swapped ? h : w;
+  out.height = swapped ? w : h;
+  const ctx = out.getContext('2d');
+  ctx.translate(out.width/2, out.height/2);
+  ctx.rotate(rad);
+  ctx.drawImage(srcCanvas, -w/2, -h/2);
+  return out;
+}
+
+// Maps a field's box (x0,y0,w,h), all in mm within the check's own local frame,
+// to its bounding box after the whole check has been rotated by `rotation` degrees.
+function computeRotatedBox(x0, y0, w, h, checkW, checkH, rotation){
+  const norm = ((rotation % 360) + 360) % 360;
+  switch(norm){
+    case 90:  return { left: checkH - y0 - h, top: x0, width: h, height: w };
+    case 180: return { left: checkW - x0 - w, top: checkH - y0 - h, width: w, height: h };
+    case 270: return { left: y0, top: checkW - x0 - w, width: h, height: w };
+    default:  return { left: x0, top: y0, width: w, height: h };
+  }
+}
+
+function getPagePlacement(){
+  const rotation = parseInt(document.getElementById('contentRotation').value, 10) || 0;
+  const checkW = parseFloat(document.getElementById('checkWidthMM').value) || 170;
+  const checkH = parseFloat(document.getElementById('checkHeightMM').value) || 85;
+  const offX = parseFloat(document.getElementById('offsetLeftMM').value) || 0;
+  const offY = parseFloat(document.getElementById('offsetTopMM').value) || 0;
+  const orientation = document.getElementById('pageOrientation').value;
+  const pageWidthMM = orientation === 'portrait' ? 210 : 297;
+  return { rotation, orientation, offX, offY, checkW, checkH, pageWidthMM };
+}
+
+async function captureFieldCanvas(fieldEl, widthMM){
+  const rect = fieldEl.getBoundingClientRect();
+  const targetPxW = Math.max(1, Math.round(widthMM * PX_PER_MM));
+  const scale = targetPxW / Math.max(1, rect.width);
+  return html2canvas(fieldEl, { scale, useCORS:true, backgroundColor:null });
+}
+
+function isFieldWrapped(el){
+  const style = getComputedStyle(el);
+  let lineHeight = parseFloat(style.lineHeight);
+  if(!lineHeight || isNaN(lineHeight)) lineHeight = parseFloat(style.fontSize) * 1.25;
+  return el.scrollHeight > lineHeight * 1.4;
+}
+
+async function renderCheckPageToPdf(pdf, isFirstPage, placement){
+  if(!isFirstPage) pdf.addPage('a4', placement.orientation);
+  const visibleFields = fields.filter(f => f.visible && f.text && f.text.trim() !== '');
+  for(const f of visibleFields){
+    const el = stage.querySelector(`.field-box[data-id="${CSS.escape(f.id)}"] .field-text`);
+    if(!el) continue;
+    const widthMM = (f.width/100) * placement.checkW;
+    let canvas = await captureFieldCanvas(el, widthMM);
+    canvas = rotateCanvas(canvas, placement.rotation);
+    const rotWidthMM = canvas.width / PX_PER_MM;
+    const rotHeightMM = canvas.height / PX_PER_MM;
+
+    let pageX, pageY;
+    if(f.printRight != null && f.printTop != null){
+      let effectiveRight = f.printRight;
+      if(f.wrap && f.wrapShiftMM && isFieldWrapped(el)) effectiveRight -= f.wrapShiftMM;
+      pageX = placement.pageWidthMM - effectiveRight - rotWidthMM;
+      pageY = f.printTop;
+    }else{
+      const box = computeRotatedBox(
+        (f.left/100) * placement.checkW, (f.top/100) * placement.checkH,
+        (f.width/100) * placement.checkW, (f.height/100) * placement.checkH,
+        placement.checkW, placement.checkH, placement.rotation
+      );
+      pageX = placement.offX + box.left;
+      pageY = placement.offY + box.top;
+    }
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', pageX, pageY, rotWidthMM, rotHeightMM);
+  }
+}
+
+document.getElementById('exportBtn').addEventListener('click', async () => {
+  if(!confirmNationalIdOrAbort()) return;
+  const btn = document.getElementById('exportBtn');
+  const original = btn.textContent;
+  btn.textContent = 'در حال آماده‌سازی...';
+  btn.disabled = true;
+  document.activeElement && document.activeElement.blur();
+  body.classList.add('exporting');
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  try{
+    const placement = getPagePlacement();
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: placement.orientation, unit:'mm', format:'a4' });
+    await renderCheckPageToPdf(pdf, true, placement);
+    pdf.save('cheque.pdf');
+  }catch(err){
+    alert('خطا در ساخت PDF: ' + err.message);
+  }finally{
+    body.classList.remove('exporting');
+    btn.textContent = original;
+    btn.disabled = false;
+  }
+});
+
+/* ================= Batch issuance ================= */
+let batchDates = [];
+
+document.getElementById('batchToggle').addEventListener('change', (e) => {
+  const checked = e.target.checked;
+  document.getElementById('batchPanel').style.display = checked ? 'block' : 'none';
+  if(!checked){
+    document.getElementById('exportBatchBtn').style.display = 'none';
+    document.getElementById('addCalendarBatchBtn').style.display = 'none';
+    document.getElementById('batchList').innerHTML = '';
+    batchDates = [];
+  }
+});
+
+function renderBatchList(){
+  const box = document.getElementById('batchList');
+  const exportBtn = document.getElementById('exportBatchBtn');
+  if(batchDates.length === 0){ box.innerHTML = ''; exportBtn.style.display = 'none'; document.getElementById('addCalendarBatchBtn').style.display = 'none'; return; }
+  box.innerHTML = batchDates.map((d, i) => `
+    <div class="calib-item" data-idx="${i}">
+      <div class="head">
+        <strong>چک ${toFaDigits(i+1)} — ${jalaliWeekdayName(d.year, d.month, d.day)}</strong>
+      </div>
+      <div class="grid4" style="grid-template-columns:1fr 1.4fr 1fr;">
+        <div><label>روز</label><input type="number" min="1" max="31" data-k="day" value="${d.day}"></div>
+        <div><label>ماه</label>
+          <select data-k="month">
+            ${FA_MONTHS.map((mn,mi) => `<option value="${mi+1}" ${d.month===mi+1?'selected':''}>${mn}</option>`).join('')}
+          </select>
+        </div>
+        <div><label>سال</label><input type="number" data-k="year" value="${d.year}"></div>
+      </div>
+    </div>
+  `).join('');
+
+  box.querySelectorAll('.calib-item').forEach(item => {
+    const idx = parseInt(item.dataset.idx, 10);
+    item.querySelectorAll('[data-k]').forEach(inp => {
+      inp.addEventListener('change', () => {
+        const k = inp.dataset.k;
+        batchDates[idx][k] = parseInt(inp.value, 10);
+        const dim = jalaliMonthLength(batchDates[idx].year, batchDates[idx].month);
+        if(batchDates[idx].day > dim) batchDates[idx].day = dim;
+        renderBatchList();
+      });
+    });
+  });
+
+  exportBtn.style.display = batchDates.length > 1 ? 'block' : 'none';
+  document.getElementById('addCalendarBatchBtn').style.display = batchDates.length > 1 ? 'block' : 'none';
+}
+
+document.getElementById('genBatchBtn').addEventListener('click', () => {
+  const count = Math.max(1, Math.min(60, parseInt(document.getElementById('batchCount').value, 10) || 1));
+  const interval = Math.max(1, parseInt(document.getElementById('batchInterval').value, 10) || 1);
+  const unit = document.getElementById('batchUnit').value;
+  const startDay = parseInt(selDay.value, 10);
+  const startMonth = parseInt(selMonth.value, 10);
+  const startYear = parseInt(selYear.value, 10);
+
+  batchDates = [];
+  for(let i = 0; i < count; i++){
+    const n = i * interval;
+    const d = unit === 'month'
+      ? addJalaliMonths(startYear, startMonth, startDay, n)
+      : addJalaliDays(startYear, startMonth, startDay, n);
+    batchDates.push(d);
+  }
+  renderBatchList();
+});
+
+document.getElementById('exportBatchBtn').addEventListener('click', async () => {
+  if(batchDates.length === 0) return;
+  if(!confirmNationalIdOrAbort()) return;
+  const btn = document.getElementById('exportBatchBtn');
+  const original = btn.textContent;
+  btn.disabled = true;
+  document.activeElement && document.activeElement.blur();
+  body.classList.add('exporting');
+
+  const dateField = fields.find(x => x.id === 'date');
+  const dateWordsField = fields.find(x => x.id === 'dateWords');
+  const savedDate = dateField ? dateField.text : '';
+  const savedDateWords = dateWordsField ? dateWordsField.text : '';
+
+  try{
+    const placement = getPagePlacement();
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: placement.orientation, unit:'mm', format:'a4' });
+    for(let i = 0; i < batchDates.length; i++){
+      btn.textContent = `در حال ساخت چک ${toFaDigits(i+1)} از ${toFaDigits(batchDates.length)}...`;
+      const d = batchDates[i];
+      if(dateField) dateField.text = formatDateDigits(d.year, d.month, d.day);
+      if(dateWordsField) dateWordsField.text = formatDateWords(d.year, d.month, d.day);
+      renderFields();
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+      await renderCheckPageToPdf(pdf, i === 0, placement);
+    }
+    pdf.save('cheques-batch.pdf');
+  }catch(err){
+    alert('خطا در ساخت PDF دسته‌ای: ' + err.message);
+  }finally{
+    if(dateField) dateField.text = savedDate;
+    if(dateWordsField) dateWordsField.text = savedDateWords;
+    renderFields();
+    body.classList.remove('exporting');
+    btn.textContent = original;
+    btn.disabled = false;
+  }
+});
+
+/* ================= About modal ================= */
+document.getElementById('aboutBtn').addEventListener('click', () => {
+  document.getElementById('aboutOverlay').style.display = 'block';
+});
+document.getElementById('aboutCloseBtn').addEventListener('click', () => {
+  document.getElementById('aboutOverlay').style.display = 'none';
+});
+document.getElementById('aboutOverlay').addEventListener('click', (e) => {
+  if(e.target.id === 'aboutOverlay') e.target.style.display = 'none';
+});
+
+/* ================= Help modal ================= */
+document.getElementById('helpBtn').addEventListener('click', () => {
+  document.getElementById('helpOverlay').style.display = 'block';
+});
+document.getElementById('helpCloseBtn').addEventListener('click', () => {
+  document.getElementById('helpOverlay').style.display = 'none';
+});
+document.getElementById('helpOverlay').addEventListener('click', (e) => {
+  if(e.target.id === 'helpOverlay') e.target.style.display = 'none';
+});
+
+/* ================= Init ================= */
+renderFields();
+updateAmountPreview();
+
+/* ================= Calendar reminders (.ics) ================= */
+function pad2(n){ return String(n).padStart(2, '0'); }
+
+function icsEscape(s){
+  return String(s || '').replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n');
+}
+
+function icsNowStamp(){
+  const d = new Date();
+  return d.getUTCFullYear() + pad2(d.getUTCMonth()+1) + pad2(d.getUTCDate()) + 'T' +
+         pad2(d.getUTCHours()) + pad2(d.getUTCMinutes()) + pad2(d.getUTCSeconds()) + 'Z';
+}
+
+function buildICSEvent(gy, gm, gd, summary, description, uid){
+  const dtStart = `${gy}${pad2(gm)}${pad2(gd)}T090000`;
+  const endDate = new Date(gy, gm - 1, gd, 9, 30);
+  const dtEnd = `${endDate.getFullYear()}${pad2(endDate.getMonth()+1)}${pad2(endDate.getDate())}T${pad2(endDate.getHours())}${pad2(endDate.getMinutes())}00`;
+  return [
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${icsNowStamp()}`,
+    `DTSTART:${dtStart}`,
+    `DTEND:${dtEnd}`,
+    `SUMMARY:${icsEscape(summary)}`,
+    `DESCRIPTION:${icsEscape(description)}`,
+    'BEGIN:VALARM',
+    'TRIGGER:-P1D',
+    'ACTION:DISPLAY',
+    `DESCRIPTION:${icsEscape(summary)}`,
+    'END:VALARM',
+    'BEGIN:VALARM',
+    'TRIGGER:-PT1H30M',
+    'ACTION:DISPLAY',
+    `DESCRIPTION:${icsEscape(summary)}`,
+    'END:VALARM',
+    'END:VEVENT'
+  ].join('\r\n');
+}
+
+function wrapVCalendar(eventsStr){
+  return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Cheque Filler//FA','CALSCALE:GREGORIAN', eventsStr, 'END:VCALENDAR'].join('\r\n');
+}
+
+function downloadICS(content, filename){
+  const blob = new Blob([content], { type:'text/calendar;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
+function currentAmountPayeeText(){
+  const amountField = fields.find(x => x.id === 'amountDigits');
+  const payeeField = fields.find(x => x.id === 'payee');
+  const nidField = fields.find(x => x.id === 'nationalId');
+  return {
+    amount: (amountField && amountField.text) ? amountField.text : '—',
+    payee: (payeeField && payeeField.text) ? payeeField.text : '—',
+    nid: (nidField && nidField.text) ? nidField.text : ''
+  };
+}
+
+document.getElementById('addCalendarBtn').addEventListener('click', () => {
+  const day = parseInt(selDay.value, 10), month = parseInt(selMonth.value, 10), year = parseInt(selYear.value, 10);
+  const { gy, gm, gd } = jalaliToGregorian(year, month, day);
+  const { amount, payee, nid } = currentAmountPayeeText();
+  const bank = document.getElementById('bankNameInput').value.trim();
+  const bankPart = bank ? ` — ${bank}` : '';
+  const summary = `سررسید چک${bankPart} — ${payee} — ${amount}`;
+  const desc = `${bank ? ('بانک: ' + bank + '\n') : ''}در وجه: ${payee}\nمبلغ: ${amount}${nid ? ('\nکد ملی گیرنده: ' + nid) : ''}\nتاریخ چک: ${formatDateDigits(year, month, day)}`;
+  const uid = `cheque-${gy}${pad2(gm)}${pad2(gd)}-${Date.now()}@cheque-filler`;
+  const ics = wrapVCalendar(buildICSEvent(gy, gm, gd, summary, desc, uid));
+  downloadICS(ics, 'cheque-reminder.ics');
+});
+
+document.getElementById('addCalendarBatchBtn').addEventListener('click', () => {
+  if(batchDates.length <= 1) return;
+  const { amount, payee, nid } = currentAmountPayeeText();
+  const bank = document.getElementById('bankNameInput').value.trim();
+  const bankPart = bank ? ` — ${bank}` : '';
+  const events = batchDates.map((d, i) => {
+    const { gy, gm, gd } = jalaliToGregorian(d.year, d.month, d.day);
+    const summary = `سررسید چک ${toFaDigits(i+1)}${bankPart} — ${payee} — ${amount}`;
+    const desc = `${bank ? ('بانک: ' + bank + '\n') : ''}در وجه: ${payee}\nمبلغ: ${amount}${nid ? ('\nکد ملی گیرنده: ' + nid) : ''}\nتاریخ چک: ${formatDateDigits(d.year, d.month, d.day)}`;
+    const uid = `cheque-${gy}${pad2(gm)}${pad2(gd)}-${i}-${Date.now()}@cheque-filler`;
+    return buildICSEvent(gy, gm, gd, summary, desc, uid);
+  }).join('\r\n');
+  downloadICS(wrapVCalendar(events), 'cheques-reminders.ics');
+});
+
+})();
+
+</script>
+</body>
+</html>
